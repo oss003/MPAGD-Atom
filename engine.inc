@@ -46,7 +46,7 @@
 ;                  part2 $0B00-$8000
 ;----------------------------------------------------------------
 
-dosversion	= 0
+dosversion	= 1
 ;bigflag    	= 1
 ;crflag    	= 0
 kflag		= 0
@@ -199,7 +199,7 @@ wflag		= 0
 ; Clear variables
 
 	lda #0
-	ldx #0
+	tax
 clrloop:
 	sta 0,x
 	inx
@@ -309,7 +309,7 @@ cpsp:
 	sta (z80_ix),y
 	ldy #13				; reset jump pointer low.
 	sta (z80_ix),y
-	ldy #14	 			; reset jump pointer high.
+	iny	 			; reset jump pointer high.
 	sta (z80_ix),y
 
 	lda #255 			; reset data pointer to auto-restore.
@@ -449,7 +449,7 @@ grav_skip:
 	sta (z80_ix),y	;        ld (ix+13),a        ; write new setting.
 	lsr a		;        rra                 ; every other frame.
 	bcs grav0	;        jr nc,grav0         ; don't apply gravity this time.
-	ldy #14		;        ld a,(ix+14)        ; pixels to move.
+	iny		;        ld a,(ix+14)        ; pixels to move.
 	lda (z80_ix),y
 	cmp #16		;        cp 16               ; reached maximum?
 	beq grav0	;        jr z,grav0          ; yes, continue.
